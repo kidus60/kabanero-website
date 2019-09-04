@@ -9,14 +9,12 @@ install:
 
 script:
   - ./scripts/build_jekyll_maven.sh 
-  - echo $GITHUB_OAUTH_TOKEN
+  - echo "$GITHUB_OAUTH_TOKEN"
   
 sudo: false
 
 jobs:
   include:
-    - script: echo "Running unit tests (1)"
-    - script: echo "Running unit tests (2)"
     - stage: GitHub Release
       script: skip
       deploy:
