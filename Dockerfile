@@ -69,7 +69,7 @@ WORKDIR /home/jekyll
 
 # kabanero.io gem dependencies
 COPY ./scripts /home/jekyll/scripts
-RUN scripts/build_gem_dependencies.sh
+CMD /scripts/build_gem_dependencies.sh
 
 # kabanero.io custom gems
 COPY ./gems /home/jekyll/gems
