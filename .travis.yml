@@ -37,9 +37,9 @@ jobs:
       name: "Deploy website"
       env: TRAVIS_TEST=true
       before_install:
-        - sudo add-apt-repository ppa:jonathonf/python-3.7 -y
-        - sudo apt-get update 
-        - sudo apt-get install python3.7
+        - sudo add-apt-repository ppa:jonathonf/python-3.6 -y
+        - sudo apt-get update -q
+        - sudo apt-get install python3.6
       install:
           - gem install bundler
           - bundle install
