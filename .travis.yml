@@ -1,11 +1,13 @@
-sudo: required
+language: ruby
+rvm:
+  - 2.6.3
+
+dist: xenial  
+python:
+  - "3.6"
 
 services:
   - docker
-
-install:
-  - gem install bundler
-  - bundle install
 
 stages:
   - name: Linting test
@@ -36,13 +38,6 @@ jobs:
     - stage: "Deploy" 
       name: "Deploy website"
       env: TRAVIS_TEST=true
-      before_install:
-        - sudo add-apt-repository ppa:jonathonf/python-3.6 -y
-        - sudo apt-get update -q
-        - sudo apt-get install python3.6
-      install:
-          - gem install bundler
-          - bundle install
       skip_cleanup: true
       on: 
         repo: $TRAVIS_REPO_SLUG
