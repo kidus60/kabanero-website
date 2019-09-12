@@ -1,10 +1,13 @@
+sudo: true
+
 language: ruby
 rvm:
   - 2.6.3
 
+
 services:
   - docker
 
-install:
-  - docker build --tag kabanero/jekyll .
+before_install:
+  - docker build --tag kabanero/jekyll -f  .travis/Dockerfile .
   - docker run --name jekyll -it -d -p 4000:4000 -v /home/jekyll kabanero/jekyll
