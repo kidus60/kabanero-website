@@ -31,10 +31,8 @@ jobs:
     - stage: "Deploy" 
       name: "Deploy website"
       env: TRAVIS_TEST=true
-      before_install:
-      before_install:
-        - pip install --upgrade pip
-        - pip install -r "requirements.txt"
+      install:
+        - pip freeze > requirements.txt
       skip_cleanup: true
       on: 
         repo: $TRAVIS_REPO_SLUG
