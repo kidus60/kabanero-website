@@ -1,12 +1,3 @@
 sudo: required
-
 services:
   - docker
-
-install:
-  - gem install bundler
-  - bundle install
-
-script:
-  - docker run widerin/alpine-eslint eslint --version
-  #- docker build --tag kabanero/jekyll -f  .travis/Dockerfile .
