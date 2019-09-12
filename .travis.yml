@@ -1,4 +1,4 @@
-language: ruby
+sudo: required
 
 services:
   - docker
@@ -8,4 +8,5 @@ install:
   - bundle install
 
 script:
-  - docker build --tag kabanero/jekyll -f  .travis/Dockerfile .
+  - docker run widerin/alpine-eslint eslint --version
+  #- docker build --tag kabanero/jekyll -f  .travis/Dockerfile .
