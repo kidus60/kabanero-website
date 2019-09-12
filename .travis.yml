@@ -18,3 +18,5 @@ jobs:
       before_install:
         - docker build --tag kabanero/jekyll .
         - docker run --name jekyll -it -d -p 4000:4000 -v /home/jekyll kabanero/jekyll
+      install:
+        - bundle install
