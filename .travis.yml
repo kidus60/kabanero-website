@@ -1,6 +1,9 @@
 language: python
 python:
   - "3.6" 
+
+install:
+  - pip install -r requirements.txt
   
 language: ruby
 rvm:
@@ -38,8 +41,6 @@ jobs:
     - stage: "Deploy" 
       name: "Deploy website"
       env: TRAVIS_TEST=true
-      install:
-        - pip install -r requirements.txt
       skip_cleanup: true
       on: 
         repo: $TRAVIS_REPO_SLUG
