@@ -1,11 +1,11 @@
 sudo: required
+
 services:
   - docker
 
 install:
   - gem install bundler
   - bundle install
-
 
 stages:
   - name: Linting test
@@ -37,7 +37,8 @@ jobs:
       name: "Deploy website"
       env: TRAVIS_TEST=true
       install:
-        - bundle install 
+          - gem install bundler
+          - bundle install
       skip_cleanup: true
       on: 
         repo: $TRAVIS_REPO_SLUG
