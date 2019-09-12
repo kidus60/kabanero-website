@@ -34,7 +34,7 @@ jobs:
       before_install:
       before_install:
         - pip install --upgrade pip
-        - pip install -r requirements.txt
+        - pip install -r "requirements.txt"
       skip_cleanup: true
       on: 
         repo: $TRAVIS_REPO_SLUG
