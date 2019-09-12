@@ -1,14 +1,9 @@
 language: ruby
-rvm:
-  - 2.6.3
-
 
 services:
   - docker
 
 before_install:
+  - gem install bundler
   - docker build --tag kabanero/jekyll -f  .travis/Dockerfile .
   - docker run --name jekyll -it -d -p 4000:4000 -v /home/jekyll kabanero/jekyll
-
-install:
-  - bundle install
