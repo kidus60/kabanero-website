@@ -1,7 +1,12 @@
 sudo: required
 services:
   - docker
-  
+
+install:
+  - gem install bundler
+  - bundle install
+
+
 stages:
   - name: Linting test
     if: type IN (api)
