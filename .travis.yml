@@ -15,6 +15,6 @@ jobs:
   include:
     - stage: "Linting test"
       name: "Running lint testing"
-      script:
+      before_install:
         - docker build --tag kabanero/jekyll .
         - docker run --name jekyll -it -d -p 4000:4000 -v /home/jekyll kabanero/jekyll
