@@ -58,3 +58,7 @@ RUN pushd gems/ol-asciidoc \
     && popd
 
 RUN scripts/build_gem_dependencies.sh
+
+RUN npm install eslint --save-dev
+
+
