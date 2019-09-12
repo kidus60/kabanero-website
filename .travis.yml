@@ -2,21 +2,9 @@ language: ruby
 rvm:
   - 2.6.3
 
-stages:
-  - name: Linting test
-    if: type IN (push, pull_request)
-
-sudo: required
-
 services:
   - docker
 
-jobs:
-  include:
-    - stage: "Linting test"
-      name: "Running lint testing"
-      before_install:
-        - docker build --tag kabanero/jekyll .
-        - docker run --name jekyll -it -d -p 4000:4000 -v /home/jekyll kabanero/jekyll
-      install:
-        - bundle install
+install:
+  - docker build --tag kabanero/jekyll .
+  - docker run --name jekyll -it -d -p 4000:4000 -v /home/jekyll kabanero/jekyll
