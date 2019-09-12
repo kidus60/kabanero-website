@@ -1,4 +1,5 @@
 #!/bin/bash
+sudo pip install requests
 
 SCRIPT_DIR=$(dirname $0)
 
