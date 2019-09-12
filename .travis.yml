@@ -1,8 +1,6 @@
 language: python
 python:
   - "3.6"
-install:
-  - pip install -r requirements.txt
 
 services:
   - docker
@@ -36,8 +34,10 @@ jobs:
     - stage: "Deploy" 
       name: "Deploy website"
       env: TRAVIS_TEST=true
-      install:
-        - pip install -r requirements.txt
+      before_install:
+        before_script:
+          - easy_install distribute
+          - pip install -r requirements.txt
       skip_cleanup: true
       on: 
         repo: $TRAVIS_REPO_SLUG
