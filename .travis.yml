@@ -1,3 +1,48 @@
 sudo: required
 services:
   - docker
+
+install:
+  - gem install bundler
+  - bundle install
+
+  stages:
+  - name: Linting test
+    if: type IN (api)
+  - name: Jekyll build site
+    if: type IN (api)
+  - name: Deploy
+    if: (type IN (push))
+
+  jobs:
+  include:
+    - stage: "Linting test"
+      name: "Running lint testing"
+      install:
+        - npm install eslint --save-dev
+        - ./node_modules/.bin/eslint src/main/content/_assets/js/*.js
+      script:
+        - ./scripts/build_gem_dependencies.sh
+
+    - stage: "Jekyll build site"
+      name: "Building website with Jekyll and using Maven to package"
+      env: TRAVIS_TEST=true
+      install:
+        - bundle install
+      script:
+        - ./scripts/build_jekyll_maven.sh
+
+    - stage: "Deploy" 
+      name: "Deploy website"
+      install:
+        - bundle install 
+        - sudo add-apt-repository ppa:jonathonf/python-3.6 -y
+        - sudo apt-get update -q
+        - sudo apt-get install python3.6
+      skip_cleanup: true
+      on: 
+        repo: $TRAVIS_REPO_SLUG
+        branch: $TRAVIS_BRANCH
+      script:
+        - python3 -V
+        - ./scripts/travis_ibmcloud_cf_push.sh 
