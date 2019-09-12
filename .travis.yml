@@ -5,36 +5,18 @@ rvm:
 stages:
   - name: Linting test
     if: type IN (push, pull_request)
-  - name: Jekyll build site
-    if: type IN (push, pull_request)
-  - name: Deploy
-    if: (type IN (api))
+
+sudo: required
+
+services:
+  - docker
 
 jobs:
   include:
     - stage: "Linting test"
       name: "Running lint testing"
-      install:
-        - npm install eslint --save-dev
-        - ./node_modules/.bin/eslint src/main/content/_assets/js/*.js
+      before_install:
+        - docker build --tag kabanero/jekyll .
+        - docker run --name jekyll -it -d -p 4000:4000 -v /home/jekyll kabanero/jekyll
       script:
-        - ./scripts/build_gem_dependencies.sh
-        
-    - stage: "Jekyll build site"
-      name: "Building website with Jekyll and using Maven to package"
-      env: TRAVIS_TEST=true
-      install:
-        - bundle install
-      script:
-        - ./scripts/build_jekyll_maven.sh
-
-    - stage: "Deploy" 
-      name: "Deploy website"
-      install:
-        - bundle install 
-      skip_cleanup: true
-      on: 
-        repo: $TRAVIS_REPO_SLUG
-        branch: $TRAVIS_BRANCH
-      script:
-        - ./scripts/travis_ibmcloud_cf_push.sh
+        - bundle exec rake test
