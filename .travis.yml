@@ -1,9 +1,7 @@
-language: ruby
-rvm:
-  - 2.6.3
-
+language: python
 python:
-  -
+  - "3.6"
+
 stages:
   - name: Linting test
     if: type IN (api)
@@ -34,7 +32,7 @@ jobs:
       name: "Deploy website"
       env: TRAVIS_TEST=true
       install:
-        - bundle install 
+        - pip freeze > requirements.txt
       skip_cleanup: true
       on: 
         repo: $TRAVIS_REPO_SLUG
