@@ -17,3 +17,5 @@ jobs:
         - ./node_modules/.bin/eslint src/main/content/_assets/js/*.js
       script:
         - ./scripts/build_gem_dependencies.sh
+
+travis_after_all: exit
