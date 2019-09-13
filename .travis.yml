@@ -31,12 +31,11 @@ jobs:
     - stage: "Deploy" 
       name: "Deploy website"
       env: TRAVIS_TEST=true
-      install:
+      before_install:
         - pip freeze > requirements.txt
       skip_cleanup: true
       on: 
         repo: $TRAVIS_REPO_SLUG
         branch: $TRAVIS_BRANCH
       script:
-        - python3 -V
         - ./scripts/travis_ibmcloud_cf_push.sh
