@@ -1,7 +1,7 @@
-language: python
-python:
-  - "3.6"
-
+language: ruby
+rvm:
+  - 2.6.3
+  
 stages:
   - name: Linting test
     if: type IN (api)
