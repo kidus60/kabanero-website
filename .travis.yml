@@ -1,42 +1,13 @@
-language: python
-python:
-  - "3.6"
+language: ruby
 
-stages:
-  - name: Linting test
-    if: type IN (api)
-  - name: Jekyll build site
-    if: type IN (api)
-  - name: Deploy
-    if: (type IN (push))
+services:
+  - docker
 
-jobs:
-  include:
-    - stage: "Linting test"
-      name: "Running lint testing"
-      install:
-        - npm install eslint --save-dev
-        - ./node_modules/.bin/eslint src/main/content/_assets/js/*.js
-      script:
-        - ./scripts/build_gem_dependencies.sh
-        
-    - stage: "Jekyll build site"
-      name: "Building website with Jekyll and using Maven to package"
-      env: TRAVIS_TEST=true
-      install:
-        - bundle install
-      script:
-        - ./scripts/build_jekyll_maven.sh
+before_install:
+- docker pull carlad/sinatra
+- docker run -d -p 127.0.0.1:80:4567 carlad/sinatra /bin/sh -c "cd /root/sinatra; bundle exec foreman start;"
+- docker ps -a
+- docker run carlad/sinatra /bin/sh -c "cd /root/sinatra; bundle exec rake test"
 
-    - stage: "Deploy" 
-      name: "Deploy website"
-      env: TRAVIS_TEST=true
-      install:
-        - pip freeze > requirements.txt
-      skip_cleanup: true
-      on: 
-        repo: $TRAVIS_REPO_SLUG
-        branch: $TRAVIS_BRANCH
-      script:
-        - python3 -V
-        - ./scripts/travis_ibmcloud_cf_push.sh
+script:
+- bundle exec rake test
