@@ -2,8 +2,18 @@ services:
   - docker
 
 before_install:
-- docker pull carlad/sinatra
-- docker run -d -p 127.0.0.1:80:4567 carlad/sinatra /bin/sh -c "cd /root/sinatra; bundle exec foreman start;"
-- docker ps -a
-- docker run carlad/sinatra /bin/sh -c "cd /root/sinatra; bundle exec rake test"
+  - docker run -it travisci/ubuntu-ruby:18.04 /bin/bash
 
+stages:
+  - name: Linting test
+    if: type IN (push)
+
+jobs:
+  include:
+    - stage: "Linting test"
+      name: "Running lint testing"
+      install:
+        - npm install eslint --save-dev
+        - ./node_modules/.bin/eslint src/main/content/_assets/js/*.js
+      script:
+        - ./scripts/build_gem_dependencies.sh
