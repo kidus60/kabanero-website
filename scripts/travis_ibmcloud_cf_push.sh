@@ -1,5 +1,5 @@
 #!/bin/bash
-sudo pip install requests
+pip3 install requests
 
 SCRIPT_DIR=$(dirname $0)
 
