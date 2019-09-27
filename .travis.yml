@@ -1,26 +1,9 @@
 language: minimal
 
-before_install:
-  - docker pull  kabanerobuild/website-travis:latest 
+before_script:
+- source <(curl -sL https://raw.githubusercontent.com/zuazo/docker-in-travis/master/scripts/start_docker.sh)
 
-install:
-  - docker build --cache-from  kabanerobuild/website-travis:latest -t website-travis -f travis/Dockerfile .
+script:
+- bundle exec rspec
 
-stages:
-  - name: Running tests
-    if: (type IN (pull_request))
-  - name: Deploy
-    if: type IN (api)
-
-jobs:
-  include:
-    - stage: "Running tests"
-      name: "Running lint testing and building website with Jekyll"
-      script:
-        - ./travis/docker_run.sh "./node_modules/.bin/eslint src/main/content/_assets/js/*.js"
-        - ./travis/docker_run.sh ./scripts/build_jekyll_maven.sh
-
-    - stage: "Deploy"
-      name: "Deploy website"
-      script: 
-        -  ./travis/docker_run.sh ./travis/travis_ibmcloud_cf_push.sh
+after_failure: cat docker_daemon.log
